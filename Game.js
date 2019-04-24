@@ -4,7 +4,7 @@ class Game {
     this.stats = new Statistics();
     this.wallet = new Wallet(start);
 
-    document.getElementById('start').addEventListener('click', this.startGame);
+    document.getElementById('start').addEventListener('click', this.startGame.bind(this)); //binded with startGame() <-- this still referes to Game{} 
     this.spanWallet = document.querySelector('.panel span.wallet');
     this.boards = document.querySelectorAll('div.color');
     this.inputBid = document.getElementById('bid');
@@ -30,7 +30,13 @@ class Game {
     this.spanWins.textContent = stats[0];
     this.spanLoses.textContent = stats[0];
   }
-  startGame() {
 
+  startGame() {
+    if (this.inputBid.value < 1) return alert('insufficient founds');
+    const bid = Math.floor(this.inputBid.value);
+    if (!this.wallet.checkCanPlay(bid)) {
+      return alert('insufficient founds or incorrect value')
+    }
+    this.wallet.changeWallet(bid, '-');
   }
 }
