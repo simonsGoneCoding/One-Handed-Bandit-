@@ -1,9 +1,9 @@
 class Wallet {
     constructor(money) {
         let _money = money;
-        //pobieranie zawartosci walleta 
+        //getting wallet value 
         this.getWalletValue = () => _money;
-        //sprawdzanie czy mozna grac 
+        //checking game conditions for playing 
         this.checkCanPlay = value => {
             if (_money >= value) return true;
             return false
@@ -15,15 +15,12 @@ class Wallet {
                 } else if (type === '-') {
                     return _money -= value;
                 } else {
-                    throw new Error('nieprawidlowy format')
+                    throw new Error('incorrect format')
                 }
             } else {
                 console.log(typeof value);
-                throw new Error('nieprawidlowa liczba')
+                throw new Error('incorrect number')
             }
         }
     }
 }
-
-
-// const wallet = new Wallet(200)
