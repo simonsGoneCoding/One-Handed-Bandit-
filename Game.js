@@ -15,20 +15,21 @@ class Game {
 
     this.render()
   }
-  render(colors = ['gray', 'gray', 'gray'], money = this.wallet.getWalletValue(), result, stats = [0, 0, 0], bid = 0, wonMoney = 0) {
+  render(colors = ['gray', 'gray', 'gray'], money = this.wallet.getWalletValue(), result = "", stats = [0, 0, 0], bid = 0, wonMoney = 0) {
     this.boards.forEach((board, index) => {
       board.style.backgroundColor = colors[index];
     })
-    this.spanResult = result;
     this.spanWallet.textContent = money;
     if (result) {
-      result = `You won ${wonMoney}`;
+      result = `You won ${wonMoney}$ `;
     } else if (!result && result !== "") {
-      result = `You lose ${bid}`;
+      result = `You lost ${bid}$ `;
     }
+    this.spanResult.textContent = result;
     this.spanGames.textContent = stats[0];
-    this.spanWins.textContent = stats[0];
-    this.spanLoses.textContent = stats[0];
+    this.spanWins.textContent = stats[1];
+    this.spanLoses.textContent = stats[2];
+    this.inputBid.value = "";
   }
 
   startGame() {
@@ -38,5 +39,14 @@ class Game {
       return alert('insufficient founds or incorrect value')
     }
     this.wallet.changeWallet(bid, '-');
+
+    this.draw = new Draw();
+    const colors = this.draw.getDrawResult();
+    const win = Result.CheckWinner(colors);
+    const wonMoney = Result.moneyWinInGame(win, bid);
+    this.wallet.changeWallet(wonMoney);
+    this.stats.addGameToStatistics();
+
+    this.render(colors, this.wallet.getWalletValue(), win, this.stats.showGameStatistics(), bid, wonMoney)
   }
 }
