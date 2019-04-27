@@ -13,9 +13,6 @@ class Draw {
       colors.push(color);
 
     }
-    console.log(colors)
     return colors
   }
 }
-
-// const bet = new Draw()
